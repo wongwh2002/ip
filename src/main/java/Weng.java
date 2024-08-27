@@ -1,22 +1,45 @@
+import java.util.Scanner;
+
 public class Weng {
     public static void main(String[] args) {
-        print_line();
         greeting();
+        Scanner scanner = new Scanner(System.in);
+        String line;
+        while (true) {
+            line = scanner.nextLine();
+            if (line.equals("bye")) {
+                goodbye();
+                break;
+            } else {
+                echo(line);
+            }
+        }
+    }
+
+    public static void print(String words) {
+        System.out.println("\t" + words);
+    }
+
+    public static void echo(String word) {
         print_line();
-        goodbye();
+        print(word);
         print_line();
     }
 
     public static void greeting() {
-        System.out.println("Hello! I'm Weng");
-        System.out.println("What can I do for you?");
+        print_line();
+        print("Hello! I'm Weng");
+        print("What can I do for you?");
+        print_line();
     }
 
     public static void goodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
+        print_line();
+        print("Bye. Hope to see you again soon!");
+        print_line();
     }
 
     public static void print_line() {
-        System.out.println("____________________________________________________________");
+        print("____________________________________________________________");
     }
 }
