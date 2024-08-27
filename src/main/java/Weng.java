@@ -1,20 +1,61 @@
 import java.util.Scanner;
 
 public class Weng {
+    private static String[] userList = new String[100];
+    private static int numItem = 0;
+
+    public static String[] getUserList() {
+        return userList;
+    }
+
+    public static void setUserList(String[] userList) {
+        Weng.userList = userList;
+    }
+
+    public static void setIndexInList(String word, int index) {
+        Weng.userList[index] = word;
+    }
+
+    public static int getNumItem() {
+        return numItem;
+    }
+
+    public static void setNumItem(int numItem) {
+        Weng.numItem = numItem;
+    }
+
+    public static void addToList(String item) {
+        setIndexInList(item, getNumItem());
+        setNumItem(getNumItem() + 1);
+        echo("added: " + item);
+    }
+
     public static void main(String[] args) {
         greeting();
         Scanner scanner = new Scanner(System.in);
         String line;
+        loop:
         while (true) {
             line = scanner.nextLine();
-            if (line.equals("bye")) {
+            switch (line) {
+            case "bye":
                 goodbye();
+                break loop;
+            case "list":
+                printList();
                 break;
-            } else {
-                echo(line);
-                
+            default:
+                addToList(line);
             }
         }
+    }
+
+    public static void printList() {
+        print_line();
+        for (int i = 0; i < getNumItem(); i++) {
+            print(String.format("%d. %s", i, getUserList()[i]));
+        }
+        print_line();
     }
 
     public static void print(String words) {
