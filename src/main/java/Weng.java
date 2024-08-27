@@ -16,19 +16,6 @@ public class Weng {
         Weng.numItem = numItem;
     }
 
-/*
-    private static String[] userList = new String[100];
-    public static String[] getUserList() {
-        return userList;
-    }
-    public static void setUserList(String[] userList) {
-        Weng.userList = userList;
-    }
-    public static void setIndexInList(String word, int index) {
-        Weng.userList[index] = word;
-    }
-*/
-
     public static Task[] getTasks() {
         return tasks;
     }
