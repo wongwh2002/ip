@@ -78,7 +78,6 @@ public class Weng {
         int index = parseInt(currLine[1]);
         if (getNumItem() < index) {
             println("Index out of range");
-
         } else {
             print_line();
             if (!getTasks()[index].isDone()) {
