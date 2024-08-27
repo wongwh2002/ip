@@ -12,6 +12,7 @@ public class Weng {
                 break;
             } else {
                 echo(line);
+                
             }
         }
     }
