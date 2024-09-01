@@ -1,5 +1,9 @@
+import duke.Deadline;
+import duke.Event;
 import duke.Task;
+import duke.Todo;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -8,12 +12,10 @@ public class Weng {
     private static Task[] tasks = new Task[100];
     private static int numItem = 0;
 
-    public static int getNumItem() {
-        return numItem;
-    }
-
-    public static void setNumItem(int numItem) {
-        Weng.numItem = numItem;
+    public static void main(String[] args) {
+        greeting();
+        String line;
+        inputHandler();
     }
 
     public static Task[] getTasks() {
@@ -24,44 +26,91 @@ public class Weng {
         Weng.tasks = tasks;
     }
 
+    public static void addTodo(String[] currLine) {
+        String description = Arrays.toString(Arrays.copyOfRange(currLine, 1, currLine.length));
+        setIndexInTask(new Todo(description), getNumItem());
+        addAndPrintHandler(description);
+    }
+
+    public static void addEvent(String description, String from, String to) {
+        setIndexInTask(new Event(description, from, to), getNumItem());
+        addAndPrintHandler(description);
+    }
+
     public static void setIndexInTask(Task task, int index) {
         Weng.tasks[index] = task;
     }
 
-    public static void addToTasks(String description) {
-        setIndexInTask(new Task(description), getNumItem());
+    public static int getNumItem() {
+        return numItem;
+    }
+
+    private static void addAndPrintHandler(String description) {
         setNumItem(getNumItem() + 1);
         println("added: " + description);
     }
 
-    public static void main(String[] args) {
-        greeting();
+    public static void println(String word) {
+        print_line();
+        print(word);
+        print_line();
+    }
+
+    public static void print_line() {
+        print("____________________________________________________________");
+    }
+
+    public static void print(String words) {
+        System.out.println("\t" + words);
+    }
+
+    public static void setNumItem(int numItem) {
+        Weng.numItem = numItem;
+    }
+
+    public static void addDeadline(String description, String by) {
+        setIndexInTask(new Deadline(description, by), getNumItem());
+        addAndPrintHandler(description);
+    }
+
+    private static void inputHandler() {
         Scanner scanner = new Scanner(System.in);
         String line;
         loop:
+
         while (true) {
             line = scanner.nextLine();
-            switch (line) {
+            String[] currLine = line.split(" ");
+            switch (currLine[0]) {
             case "bye":
                 goodbye();
                 break loop;
             case "list":
                 listTasks();
                 break;
+            case "todo":
+                addTodo(line);
+                break;
+            case "deadline":
+                addTodo(line);
+                break;
+            case "event":
+                addTodo(line);
+                break;
+            case "unmark":
+                unmarkTask(currLine);
+                break;
+            case "mark":
+                markTask(currLine);
+                break;
             default:
-                if (line.contains("unmark")) {
-                    unmarkTask(line);
-                } else if (line.contains("mark")) {
-                    markTask(line);
-                } else {
-                    addToTasks(line);
-                }
+                print("Invalid command");
+                break;
             }
         }
     }
 
-    public static void unmarkTask(String line) {
-        String[] currLine = line.split(" ");
+    public static void unmarkTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (getNumItem() < index) {
             println("Index out of range");
@@ -78,8 +127,7 @@ public class Weng {
         }
     }
 
-    public static void markTask(String line) {
-        String[] currLine = line.split(" ");
+    public static void markTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (getNumItem() < index) {
             println("Index out of range");
@@ -104,18 +152,8 @@ public class Weng {
         print_line();
         print("Here are the tasks in your list:");
         for (int i = 0; i < getNumItem(); i++) {
-            print(String.format("%d. %s", i, formatPrintTask(getTasks()[i])));
+            print(String.format("%d. %s", i, getTasks()[i]));
         }
-        print_line();
-    }
-
-    public static void print(String words) {
-        System.out.println("\t" + words);
-    }
-
-    public static void println(String word) {
-        print_line();
-        print(word);
         print_line();
     }
 
@@ -130,9 +168,5 @@ public class Weng {
         print_line();
         print("Bye. Hope to see you again soon!");
         print_line();
-    }
-
-    public static void print_line() {
-        print("____________________________________________________________");
     }
 }
