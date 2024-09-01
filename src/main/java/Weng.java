@@ -27,24 +27,16 @@ public class Weng {
 
     public static void addTodo(String[] currLine) {
         String description = String.join(" ", Arrays.copyOfRange(currLine, 1, currLine.length));
-        setIndexInTask(new Todo(description), getNumItem());
         addAndPrintHandler(new Todo(description));
     }
 
-    public static void addEvent(String[] currLine) {
-        int fromIndex = Arrays.asList(currLine).indexOf("/from");
-        int toIndex = Arrays.asList(currLine).indexOf("/to");
-        String description = String.join(" ", Arrays.copyOfRange(currLine, 1, fromIndex));
-        String from = String.join(" ", Arrays.copyOfRange(currLine, fromIndex + 1, toIndex));
-        String to = String.join(" ", Arrays.copyOfRange(currLine, toIndex + 1, currLine.length));
-        addAndPrintHandler(new Event(description, from, to));
+    public static void addEvent(String[] input) {
+        addAndPrintHandler(new Event(input));
     }
 
-    public static void addDeadline(String[] currLine) {
-        int byIndex = Arrays.asList(currLine).indexOf("/by");
-        String description = String.join(" ", Arrays.copyOfRange(currLine, 1, byIndex));
-        String by = String.join(" ", Arrays.copyOfRange(currLine, byIndex + 1, currLine.length));
-        addAndPrintHandler(new Deadline(description, by));
+    public static void addDeadline(String[] input) {
+
+        addAndPrintHandler(new Deadline(input));
     }
 
     public static void setIndexInTask(Task task, int index) {

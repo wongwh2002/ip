@@ -1,5 +1,7 @@
 package duke;
 
+import java.util.Arrays;
+
 public class Deadline extends Task {
     protected String by;
 
@@ -11,6 +13,13 @@ public class Deadline extends Task {
     public Deadline(String description, String by, boolean isDone) {
         super(description, isDone);
         this.by = by;
+    }
+
+    public Deadline(String[] input) {
+        super(input[0]);
+        int byIndex = Arrays.asList(input).indexOf("/by");
+        setDescription(String.join(" ", Arrays.copyOfRange(input, 1, byIndex)));
+        this.by = String.join(" ", Arrays.copyOfRange(input, byIndex + 1, input.length));
     }
 
     @Override
