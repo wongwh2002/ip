@@ -14,7 +14,6 @@ public class Weng {
 
     public static void main(String[] args) {
         greeting();
-        String line;
         inputHandler();
     }
 
@@ -64,7 +63,7 @@ public class Weng {
         setIndexInTask(newTask, getNumItem());
         setNumItem(getNumItem() + 1);
         print("Got it. I've added this task:");
-        System.out.println("\t\t" + newTask);
+        print("\t" + newTask.toString());
         print("Now you have " + getNumItem() + " tasks in the list.");
     }
 
@@ -126,7 +125,7 @@ public class Weng {
                 print("Nice! I've marked this task as not done yet:");
                 getTasks()[index].setDone(false);
             }
-            print(formatPrintTask(getTasks()[index]));
+            print(getTasks()[index].toString());
         }
     }
 
@@ -141,7 +140,7 @@ public class Weng {
                 print("Nice! I've marked this task as done:");
                 getTasks()[index].setDone(true);
             }
-            print(formatPrintTask(getTasks()[index]));
+            print(getTasks()[index].toString());
         }
     }
 
