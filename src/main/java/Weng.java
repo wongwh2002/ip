@@ -16,11 +16,6 @@ public class Weng {
     private static Task[] tasks = new Task[100];
     private static int totalNumTasks = 0;
 
-    public static void main(String[] args) {
-        printGreeting();
-        inputVerification();
-    }
-
     public static Task[] getTasks() {
         return tasks;
     }
@@ -39,7 +34,6 @@ public class Weng {
     }
 
     public static void addDeadline(String[] input) throws MissingDatesException {
-
         addAndPrintHandler(new Deadline(input));
     }
 
@@ -55,25 +49,15 @@ public class Weng {
         Weng.totalNumTasks = totalNumTasks;
     }
 
-    private static void addAndPrintHandler(Task newTask) {
-        setIndexInTask(newTask, getTotalNumTasks());
-        setTotalNumTasks(getTotalNumTasks() + 1);
-        print("Got it. I've added this task:");
-        print("\t" + newTask.toString());
-        print("Now you have " + getTotalNumTasks() + " tasks in the list.");
-    }
-
-    public static void print(String words) {
-        System.out.println("\t" + words);
-    }
-
-    public static void printSeparator() {
-        print(SEPARATOR);
+    public static void main(String[] args) {
+        printGreeting();
+        inputVerification();
     }
 
     private static void inputVerification() {
         Scanner scanner = new Scanner(System.in);
         String line;
+        //LEGAL_COMMANDS only used in this method, so ill leave it here
         String[] LEGAL_COMMANDS = {"bye", "list", "todo", "deadline", "event", "unmark", "mark"};
         boolean looping = true;
         while (looping) {
@@ -98,7 +82,7 @@ public class Weng {
                     listTasks();
                     continue;
                 }
-
+                //have done the 1-word commands, checking for multi-word commands now
                 if (currLine.length < 2) {
                     throw new DescriptionEmptyException(currLine[0]);
                 }
@@ -132,6 +116,23 @@ public class Weng {
         }
     }
 
+    private static void addAndPrintHandler(Task newTask) {
+        setIndexInTask(newTask, getTotalNumTasks());
+        setTotalNumTasks(getTotalNumTasks() + 1);
+        print("Got it. I've added this task:");
+        print("\t" + newTask.toString());
+        print("Now you have " + getTotalNumTasks() + " tasks in the list.");
+    }
+
+    public static void print(String words) {
+        System.out.println("\t" + words);
+    }
+
+    public static void printSeparator() {
+        print(SEPARATOR);
+    }
+
+
     public static void unmarkTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (getTotalNumTasks() < index) {
@@ -158,10 +159,6 @@ public class Weng {
             }
             print(getTasks()[index].toString());
         }
-    }
-
-    public static String formatPrintTask(Task task) {
-        return String.format("[%s] %s", task.getStatusIcon(), task.getDescription());
     }
 
     public static void listTasks() {
