@@ -9,11 +9,12 @@ import java.util.Scanner;
 import static java.lang.Integer.parseInt;
 
 public class Weng {
+    public static final String SEPARATOR = "____________________________________________________________";
     private static Task[] tasks = new Task[100];
-    private static int numItem = 0;
+    private static int totalNumTasks = 0;
 
     public static void main(String[] args) {
-        greeting();
+        printGreeting();
         inputHandler();
     }
 
@@ -43,28 +44,28 @@ public class Weng {
         Weng.tasks[index] = task;
     }
 
-    public static int getNumItem() {
-        return numItem;
+    public static int getTotalNumTasks() {
+        return totalNumTasks;
     }
 
-    public static void setNumItem(int numItem) {
-        Weng.numItem = numItem;
+    public static void setTotalNumTasks(int totalNumTasks) {
+        Weng.totalNumTasks = totalNumTasks;
     }
 
     private static void addAndPrintHandler(Task newTask) {
-        setIndexInTask(newTask, getNumItem());
-        setNumItem(getNumItem() + 1);
+        setIndexInTask(newTask, getTotalNumTasks());
+        setTotalNumTasks(getTotalNumTasks() + 1);
         print("Got it. I've added this task:");
         print("\t" + newTask.toString());
-        print("Now you have " + getNumItem() + " tasks in the list.");
+        print("Now you have " + getTotalNumTasks() + " tasks in the list.");
     }
 
     public static void print(String words) {
         System.out.println("\t" + words);
     }
 
-    public static void print_line() {
-        print("____________________________________________________________");
+    public static void printSeparator() {
+        print(SEPARATOR);
     }
 
     private static void inputHandler() {
@@ -74,7 +75,7 @@ public class Weng {
         while (true) {
             line = scanner.nextLine();
             String[] currLine = line.split(" ");
-            print_line();
+            printSeparator();
             switch (currLine[0]) {
             case "bye":
                 goodbye();
@@ -101,29 +102,27 @@ public class Weng {
                 print("Invalid command");
                 break;
             }
-            print_line();
+            printSeparator();
         }
-        print_line();
+        printSeparator();
     }
 
     public static void unmarkTask(String[] currLine) {
         int index = parseInt(currLine[1]);
-        if (getNumItem() < index) {
+        if (getTotalNumTasks() < index) {
             print("Index out of range");
+        } else if (!getTasks()[index].isDone()) {
+            print("Already unmarked");
         } else {
-            if (!getTasks()[index].isDone()) {
-                print("Already unmarked");
-            } else {
-                print("Nice! I've marked this task as not done yet:");
-                getTasks()[index].setDone(false);
-            }
-            print(getTasks()[index].toString());
+            print("Nice! I've marked this task as not done yet:");
+            getTasks()[index].setDone(false);
         }
+        print(getTasks()[index].toString());
     }
 
     public static void markTask(String[] currLine) {
         int index = parseInt(currLine[1]);
-        if (getNumItem() < index) {
+        if (getTotalNumTasks() < index) {
             print("Index out of range");
         } else {
             if (getTasks()[index].isDone()) {
@@ -142,16 +141,16 @@ public class Weng {
 
     public static void listTasks() {
         print("Here are the tasks in your list:");
-        for (int i = 0; i < getNumItem(); i++) {
+        for (int i = 0; i < getTotalNumTasks(); i++) {
             print(String.format("%d. %s", i, getTasks()[i]));
         }
     }
 
-    public static void greeting() {
-        print_line();
+    public static void printGreeting() {
+        printSeparator();
         print("Hello! I'm Weng");
         print("What can I do for you?");
-        print_line();
+        printSeparator();
     }
 
     public static void goodbye() {
