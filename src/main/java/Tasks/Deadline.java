@@ -1,4 +1,6 @@
-package duke;
+package Tasks;
+
+import Exceptions.MissingDatesException;
 
 import java.util.Arrays;
 
@@ -15,9 +17,12 @@ public class Deadline extends Task {
         this.by = by;
     }
 
-    public Deadline(String[] input) {
+    public Deadline(String[] input) throws MissingDatesException {
         super(input[0]);
         int byIndex = Arrays.asList(input).indexOf("/by");
+        if (byIndex == -1) {
+            throw new MissingDatesException("/by");
+        }
         setDescription(String.join(" ", Arrays.copyOfRange(input, 1, byIndex)));
         this.by = String.join(" ", Arrays.copyOfRange(input, byIndex + 1, input.length));
     }

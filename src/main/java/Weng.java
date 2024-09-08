@@ -1,7 +1,10 @@
-import duke.Deadline;
-import duke.Event;
-import duke.Task;
-import duke.Todo;
+import Exceptions.DescriptionEmptyException;
+import Exceptions.IllegalCommandException;
+import Exceptions.MissingDatesException;
+import Tasks.Deadline;
+import Tasks.Event;
+import Tasks.Task;
+import Tasks.Todo;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -15,7 +18,7 @@ public class Weng {
 
     public static void main(String[] args) {
         printGreeting();
-        inputHandler();
+        inputVerification();
     }
 
     public static Task[] getTasks() {
@@ -31,11 +34,11 @@ public class Weng {
         addAndPrintHandler(new Todo(description));
     }
 
-    public static void addEvent(String[] input) {
+    public static void addEvent(String[] input) throws MissingDatesException {
         addAndPrintHandler(new Event(input));
     }
 
-    public static void addDeadline(String[] input) {
+    public static void addDeadline(String[] input) throws MissingDatesException {
 
         addAndPrintHandler(new Deadline(input));
     }
@@ -68,43 +71,65 @@ public class Weng {
         print(SEPARATOR);
     }
 
-    private static void inputHandler() {
+    private static void inputVerification() {
         Scanner scanner = new Scanner(System.in);
         String line;
-        loop:
-        while (true) {
-            line = scanner.nextLine();
-            String[] currLine = line.split(" ");
-            printSeparator();
-            switch (currLine[0]) {
-            case "bye":
-                goodbye();
-                break loop;
-            case "list":
-                listTasks();
-                break;
-            case "todo":
-                addTodo(currLine);
-                break;
-            case "deadline":
-                addDeadline(currLine);
-                break;
-            case "event":
-                addEvent(currLine);
-                break;
-            case "unmark":
-                unmarkTask(currLine);
-                break;
-            case "mark":
-                markTask(currLine);
-                break;
-            default:
-                print("Invalid command");
-                break;
+        String[] LEGAL_COMMANDS = {"bye", "list", "todo", "deadline", "event", "unmark", "mark"};
+        boolean looping = true;
+        while (looping) {
+            try {
+                //hmm, not sure how to refactor this code effectively
+                //do give comments if got any idea
+                line = scanner.nextLine();
+                String[] currLine = line.split(" ");
+                printSeparator();
+
+                if (Arrays.stream(LEGAL_COMMANDS).noneMatch(currLine[0]::equals)) {
+                    //if the command is not in the list of legal commands
+                    throw new IllegalCommandException();
+                }
+
+                switch (currLine[0]) {
+                case "bye":
+                    printGoodbye();
+                    looping = false; //break loop
+                    continue;
+                case "list":
+                    listTasks();
+                    continue;
+                }
+
+                if (currLine.length < 2) {
+                    throw new DescriptionEmptyException(currLine[0]);
+                }
+                switch (currLine[0]) {
+                case "todo":
+                    addTodo(currLine);
+                    break;
+                case "deadline":
+                    addDeadline(currLine);
+                    break;
+                case "event":
+                    addEvent(currLine);
+                    break;
+                case "unmark":
+                    unmarkTask(currLine);
+                    break;
+                case "mark":
+                    markTask(currLine);
+                    break;
+                }
+            } catch (IllegalCommandException e) {
+                print("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+            } catch (DescriptionEmptyException e) {
+                //probably need a separate exception for mark and unmark but ill do it next time
+                print("☹ OOPS!!! The description of a " + e.errorMessage + " cannot be empty.");
+            } catch (MissingDatesException e) {
+                print("☹ OOPS!!! The dates of a " + e.errorMessage + " cannot be empty.");
+            } finally {
+                printSeparator();
             }
-            printSeparator();
         }
-        printSeparator();
     }
 
     public static void unmarkTask(String[] currLine) {
@@ -153,7 +178,7 @@ public class Weng {
         printSeparator();
     }
 
-    public static void goodbye() {
+    public static void printGoodbye() {
         print("Bye. Hope to see you again soon!");
     }
 }
