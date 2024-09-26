@@ -6,6 +6,7 @@ import Tasks.Event;
 import Tasks.Task;
 import Tasks.Todo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -13,15 +14,10 @@ import static java.lang.Integer.parseInt;
 
 public class Weng {
     public static final String SEPARATOR = "____________________________________________________________";
-    private static Task[] tasks = new Task[100];
-    private static int totalNumTasks = 0;
+    private static final ArrayList<Task> tasks = new ArrayList<>();
 
-    public static Task[] getTasks() {
+    public static ArrayList<Task> getTasks() {
         return tasks;
-    }
-
-    public static void setTasks(Task[] tasks) {
-        Weng.tasks = tasks;
     }
 
     public static void addTodo(String[] currLine) {
@@ -38,15 +34,11 @@ public class Weng {
     }
 
     public static void setIndexInTask(Task task, int index) {
-        Weng.tasks[index] = task;
+        Weng.tasks.set(index, task);
     }
 
     public static int getTotalNumTasks() {
-        return totalNumTasks;
-    }
-
-    public static void setTotalNumTasks(int totalNumTasks) {
-        Weng.totalNumTasks = totalNumTasks;
+        return tasks.size();
     }
 
     public static void main(String[] args) {
@@ -125,7 +117,6 @@ public class Weng {
 
     private static void addAndPrintHandler(Task newTask) {
         setIndexInTask(newTask, getTotalNumTasks());
-        setTotalNumTasks(getTotalNumTasks() + 1);
         print("Got it. I've added this task:");
         print("\t" + newTask.toString());
         print("Now you have " + getTotalNumTasks() + " tasks in the list.");
@@ -145,11 +136,10 @@ public class Weng {
             throw new IndexOutOfBoundsException();
         }
         print("Noted. I've removed this task:");
-        print(getTasks()[index].toString());
+        print(getTasks().get(index).toString());
         for (int i = index; i < getTotalNumTasks() - 1; i++) {
-            setIndexInTask(getTasks()[i + 1], i);
+            setIndexInTask(getTasks().get(i + 1), i);
         }
-        setTotalNumTasks(getTotalNumTasks() - 1);
         print("Now you have " + getTotalNumTasks() + " tasks in the list.");
     }
 
@@ -157,13 +147,13 @@ public class Weng {
         int index = parseInt(currLine[1]);
         if (getTotalNumTasks() < index) {
             print("Index out of range");
-        } else if (!getTasks()[index].isDone()) {
+        } else if (!getTasks().get(index).isDone()) {
             print("Already unmarked");
         } else {
             print("Nice! I've marked this task as not done yet:");
-            getTasks()[index].setDone(false);
+            getTasks().get(index).setDone(false);
         }
-        print(getTasks()[index].toString());
+        print(getTasks().get(index).toString());
     }
 
     public static void markTask(String[] currLine) {
@@ -171,20 +161,20 @@ public class Weng {
         if (getTotalNumTasks() < index) {
             print("Index out of range");
         } else {
-            if (getTasks()[index].isDone()) {
+            if (getTasks().get(index).isDone()) {
                 print("Already marked");
             } else {
                 print("Nice! I've marked this task as done:");
-                getTasks()[index].setDone(true);
+                getTasks().get(index).setDone(true);
             }
-            print(getTasks()[index].toString());
+            print(getTasks().get(index).toString());
         }
     }
 
     public static void listTasks() {
         print("Here are the tasks in your list:");
         for (int i = 0; i < getTotalNumTasks(); i++) {
-            print(String.format("%d. %s", i, getTasks()[i]));
+            print(String.format("%d. %s", i, getTasks().get(i)));
         }
     }
 
