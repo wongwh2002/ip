@@ -5,30 +5,36 @@ import Exceptions.MissingDatesException;
 import java.util.Arrays;
 
 public class Deadline extends Task {
-    protected String by;
+    public static final String BY = "/by";
+    protected String byDate;
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, String byDate) {
         super(description);
-        this.by = by;
+        this.byDate = byDate;
     }
 
-    public Deadline(String description, String by, boolean isDone) {
+    public Deadline(String description, String byDate, boolean isDone) {
         super(description, isDone);
-        this.by = by;
+        this.byDate = byDate;
     }
 
     public Deadline(String[] input) throws MissingDatesException {
         super(input[0]);
-        int byIndex = Arrays.asList(input).indexOf("/by");
+        int byIndex = Arrays.asList(input).indexOf(BY);
         if (byIndex == -1) {
-            throw new MissingDatesException("/by");
+            throw new MissingDatesException(BY);
         }
         setDescription(String.join(" ", Arrays.copyOfRange(input, 1, byIndex)));
-        this.by = String.join(" ", Arrays.copyOfRange(input, byIndex + 1, input.length));
+        this.byDate = String.join(" ", Arrays.copyOfRange(input, byIndex + 1, input.length));
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + byDate + ")";
+    }
+
+    @Override
+    public String toFile() {
+        return "D | " + super.toFile() + " | " + byDate;
     }
 }

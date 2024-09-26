@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -18,12 +20,37 @@ import static java.lang.Integer.parseInt;
 
 public class Weng {
     public static final String SEPARATOR = "____________________________________________________________";
+    public static final String FILE_PATH = "src/main/Data/tasks.txt";
     private static final ArrayList<Task> tasks = new ArrayList<>();
     private static final String[] LEGAL_COMMANDS = {"bye", "list", "todo", "deadline", "event", "unmark", "mark", "delete"};
 
     public static void main(String[] args) {
+        readFile();
         printGreeting();
         inputVerification();
+        writeFile();
+    }
+
+    private static void readFile() {
+        try {
+            readFileHandler();
+        } catch (FileNotFoundException e) {
+            print("File not found");
+        } catch (IllegalCommandException e) {
+            print("Illegal command");
+        } catch (MissingDatesException e) {
+            print("Missing dates");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void writeFile() {
+        try {
+            writeFileHandler();
+        } catch (IOException e) {
+            print("Error writing to file");
+        }
     }
 
     private static void inputVerification() {
@@ -74,7 +101,6 @@ public class Weng {
         if (currLine.length < 2) {
             throw new DescriptionEmptyException(currLine[0]);
         }
-
         switch (currLine[0]) {
         case "todo":
             addTodo(currLine);
@@ -110,10 +136,6 @@ public class Weng {
 
     public static void addDeadline(String[] input) throws MissingDatesException {
         addAndPrintHandler(new Deadline(input));
-    }
-
-    public static void setIndexInTask(Task task, int index) {
-        tasks.set(index, task);
     }
 
     public static int getTotalNumTasks() {
@@ -190,23 +212,55 @@ public class Weng {
         print("Bye. Hope to see you again soon!");
     }
 
-    public static void readFile() throws FileNotFoundException {
-        String filePath = "data/tasks.txt";
-        File f = new File(filePath);
-        Scanner s = new Scanner(f);
-        while (s.hasNext()) {
-            String[] currLine = s.nextLine().split(" | ");
+    public static void readFileHandler() throws FileNotFoundException, IllegalCommandException, MissingDatesException {
+        try {
+            // Ensure the directory exists
+            Files.createDirectories(Paths.get("src/main/java/Data"));
 
+            // Ensure the file exists
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            Scanner s = new Scanner(file);
+            while (s.hasNext()) {
+                String[] currLine = s.nextLine().split("\\|");
+                switch (currLine[0].trim()) {
+                case "T":
+                    addTodo(currLine);
+                    break;
+                case "D":
+                    addDeadline(currLine[2].trim(), currLine[3].trim(), Boolean.parseBoolean(currLine[1].trim()));
+                    break;
+                case "E":
+                    addEvent(currLine[2].trim(), currLine[3].trim(), currLine[4].trim(), Boolean.parseBoolean(currLine[1].trim()));
+                    break;
+                default:
+                    throw new IllegalCommandException();
+                }
+            }
+        } catch (IOException e) {
+            throw new FileNotFoundException("File not found and could not be created");
         }
     }
 
-    public static void writeFile() throws IOException {
-        String filePath = "data/tasks.txt";
-        FileWriter fw = new FileWriter(filePath);
+    private static void addEvent(String desc, String fromDate, String toDate, boolean isDone) {
+        addAndPrintHandler(new Event(desc, fromDate, toDate, isDone));
+    }
+
+    private static void addDeadline(String desc, String byDate, boolean isDone) {
+        addAndPrintHandler(new Deadline(desc, byDate, isDone));
+    }
+
+    public static void writeFileHandler() throws IOException {
+        FileWriter fw = new FileWriter(FILE_PATH);
         try {
             for (Task task : tasks) {
-                fw.write(task.toString());
+                fw.write(task.toFile());
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
