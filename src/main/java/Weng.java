@@ -58,9 +58,9 @@ public class Weng {
         Scanner scanner = new Scanner(System.in);
         String line;
         //LEGAL_COMMANDS only used in this method, so ill leave it here
-        String[] LEGAL_COMMANDS = {"bye", "list", "todo", "deadline", "event", "unmark", "mark"};
-        boolean looping = true;
-        while (looping) {
+        String[] LEGAL_COMMANDS = {"bye", "list", "todo", "deadline", "event", "unmark", "mark", "delete"};
+        boolean isLooping = true;
+        while (isLooping) {
             try {
                 //hmm, not sure how to refactor this code effectively
                 //do give comments if got any idea
@@ -76,7 +76,7 @@ public class Weng {
                 switch (currLine[0]) {
                 case "bye":
                     printGoodbye();
-                    looping = false; //break loop
+                    isLooping = false; //break loop
                     continue;
                 case "list":
                     listTasks();
@@ -102,7 +102,14 @@ public class Weng {
                 case "mark":
                     markTask(currLine);
                     break;
+                case "delete":
+                    deleteTask(currLine);
+                    break;
+                default:
+                    throw new IllegalCommandException();
                 }
+            } catch (IndexOutOfBoundsException e) {
+                print("Index out of range");
             } catch (IllegalCommandException e) {
                 print("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             } catch (DescriptionEmptyException e) {
@@ -132,6 +139,19 @@ public class Weng {
         print(SEPARATOR);
     }
 
+    public static void deleteTask(String[] currLine) {
+        int index = parseInt(currLine[1]);
+        if (getTotalNumTasks() < index || getTotalNumTasks() == 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        print("Noted. I've removed this task:");
+        print(getTasks()[index].toString());
+        for (int i = index; i < getTotalNumTasks() - 1; i++) {
+            setIndexInTask(getTasks()[i + 1], i);
+        }
+        setTotalNumTasks(getTotalNumTasks() - 1);
+        print("Now you have " + getTotalNumTasks() + " tasks in the list.");
+    }
 
     public static void unmarkTask(String[] currLine) {
         int index = parseInt(currLine[1]);
