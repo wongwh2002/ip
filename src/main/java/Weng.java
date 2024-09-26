@@ -6,6 +6,10 @@ import Tasks.Event;
 import Tasks.Task;
 import Tasks.Todo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -184,5 +188,25 @@ public class Weng {
 
     public static void printGoodbye() {
         print("Bye. Hope to see you again soon!");
+    }
+
+    public static void readFile() throws FileNotFoundException {
+        String filePath = "data/tasks.txt";
+        File f = new File(filePath);
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String[] currLine = s.nextLine().split(" | ");
+
+        }
+    }
+
+    public static void writeFile() throws IOException {
+        String filePath = "data/tasks.txt";
+        FileWriter fw = new FileWriter(filePath);
+        try {
+            for (Task task : tasks) {
+                fw.write(task.toString());
+            }
+        }
     }
 }
