@@ -31,8 +31,10 @@ public class Weng {
         writeFile();
     }
 
+    // File handling methods
     private static void readFile() {
         try {
+            print("Reading from file...");
             readFileHandler();
         } catch (FileNotFoundException e) {
             print("File not found");
@@ -40,19 +42,63 @@ public class Weng {
             print("Illegal command");
         } catch (MissingDatesException e) {
             print("Missing dates");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     private static void writeFile() {
         try {
+            print("Writing to file...");
             writeFileHandler();
         } catch (IOException e) {
             print("Error writing to file");
         }
     }
 
+    public static void readFileHandler() throws FileNotFoundException, IllegalCommandException, MissingDatesException {
+        try {
+            // Ensure the directory exists
+            Files.createDirectories(Paths.get("src/main/Data"));
+
+            // Ensure the file exists
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            Scanner s = new Scanner(file);
+            while (s.hasNext()) {
+                String[] currLine = s.nextLine().split("\\|");
+                boolean isDone = currLine[1].trim().equals("1");
+                switch (currLine[0].trim()) {
+                case "T":
+                    addTodo(currLine[2], isDone);
+                    break;
+                case "D":
+                    addDeadline(currLine[2].trim(), currLine[3].trim(), isDone);
+                    break;
+                case "E":
+                    addEvent(currLine[2].trim(), currLine[3].trim(), currLine[4].trim(), isDone);
+                    break;
+                default:
+                    throw new IllegalCommandException();
+                }
+            }
+        } catch (IOException e) {
+            throw new FileNotFoundException("File not found and could not be created");
+        }
+    }
+
+    public static void writeFileHandler() throws IOException {
+        try (FileWriter fw = new FileWriter(FILE_PATH)) {
+            for (Task task : tasks) {
+                fw.write(task.toFile() + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Input handling methods
     private static void inputVerification() {
         Scanner scanner = new Scanner(System.in);
         boolean isLooping = true;
@@ -125,6 +171,7 @@ public class Weng {
         }
     }
 
+    // Task handling methods
     public static void addTodo(String[] currLine) {
         String description = String.join(" ", Arrays.copyOfRange(currLine, 1, currLine.length));
         addAndPrintHandler(new Todo(description));
@@ -138,8 +185,16 @@ public class Weng {
         addAndPrintHandler(new Deadline(input));
     }
 
-    public static int getTotalNumTasks() {
-        return tasks.size();
+    private static void addTodo(String currLine, boolean isDone) {
+        tasks.add(new Todo(currLine, isDone));
+    }
+
+    private static void addEvent(String desc, String fromDate, String toDate, boolean isDone) {
+        tasks.add(new Event(desc, fromDate, toDate, isDone));
+    }
+
+    private static void addDeadline(String desc, String byDate, boolean isDone) {
+        tasks.add(new Deadline(desc, byDate, isDone));
     }
 
     private static void addAndPrintHandler(Task newTask) {
@@ -147,14 +202,6 @@ public class Weng {
         print("Got it. I've added this task:");
         print("\t" + newTask.toString());
         print("Now you have " + getTotalNumTasks() + " tasks in the list.");
-    }
-
-    public static void print(String words) {
-        System.out.println("\t" + words);
-    }
-
-    public static void printSeparator() {
-        print(SEPARATOR);
     }
 
     public static void deleteTask(String[] currLine) {
@@ -201,6 +248,15 @@ public class Weng {
         }
     }
 
+    // Utility methods
+    public static void print(String words) {
+        System.out.println("\t" + words);
+    }
+
+    public static void printSeparator() {
+        print(SEPARATOR);
+    }
+
     public static void printGreeting() {
         printSeparator();
         print("Hello! I'm Weng");
@@ -212,55 +268,7 @@ public class Weng {
         print("Bye. Hope to see you again soon!");
     }
 
-    public static void readFileHandler() throws FileNotFoundException, IllegalCommandException, MissingDatesException {
-        try {
-            // Ensure the directory exists
-            Files.createDirectories(Paths.get("src/main/java/Data"));
-
-            // Ensure the file exists
-            File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            Scanner s = new Scanner(file);
-            while (s.hasNext()) {
-                String[] currLine = s.nextLine().split("\\|");
-                switch (currLine[0].trim()) {
-                case "T":
-                    addTodo(currLine);
-                    break;
-                case "D":
-                    addDeadline(currLine[2].trim(), currLine[3].trim(), Boolean.parseBoolean(currLine[1].trim()));
-                    break;
-                case "E":
-                    addEvent(currLine[2].trim(), currLine[3].trim(), currLine[4].trim(), Boolean.parseBoolean(currLine[1].trim()));
-                    break;
-                default:
-                    throw new IllegalCommandException();
-                }
-            }
-        } catch (IOException e) {
-            throw new FileNotFoundException("File not found and could not be created");
-        }
-    }
-
-    private static void addEvent(String desc, String fromDate, String toDate, boolean isDone) {
-        addAndPrintHandler(new Event(desc, fromDate, toDate, isDone));
-    }
-
-    private static void addDeadline(String desc, String byDate, boolean isDone) {
-        addAndPrintHandler(new Deadline(desc, byDate, isDone));
-    }
-
-    public static void writeFileHandler() throws IOException {
-        FileWriter fw = new FileWriter(FILE_PATH);
-        try {
-            for (Task task : tasks) {
-                fw.write(task.toFile());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static int getTotalNumTasks() {
+        return tasks.size();
     }
 }
