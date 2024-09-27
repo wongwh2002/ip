@@ -1,24 +1,33 @@
+package Classes;
+
+import Commands.CommandType;
+import Exceptions.DescriptionEmptyException;
+import Exceptions.IllegalCommandException;
+import Exceptions.MissingDatesException;
 import Tasks.Deadline;
 import Tasks.Event;
 import Tasks.Task;
 import Tasks.Todo;
-import Exceptions.DescriptionEmptyException;
-import Exceptions.IllegalCommandException;
-import Exceptions.MissingDatesException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static java.lang.Integer.parseInt;
 
-public class TaskManager {
+public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
+    private final Ui ui;
+
+    public TaskList(Ui ui) {
+        this.ui = ui;
+    }
+
 
     public void handleMultiWordCommands(String[] currLine) throws DescriptionEmptyException, MissingDatesException, IllegalCommandException {
         if (currLine.length < 2) {
             throw new DescriptionEmptyException(currLine[0]);
         }
-        switch (Command.valueOf(currLine[0].toUpperCase())) {
+        switch (CommandType.valueOf(currLine[0].toUpperCase())) {
         case TODO:
             addTodoFromInput(currLine);
             break;
@@ -69,9 +78,7 @@ public class TaskManager {
 
     private void addAndPrintHandler(Task newTask) {
         tasks.add(newTask);
-        Weng.print("Got it. I've added this task:");
-        Weng.print("\t" + newTask.toString());
-        Weng.print("Now you have " + getTotalNumTasks() + " tasks in the list.");
+        ui.printWithSeparators("Got it. I've added this task:\n\t" + newTask.toString() + "\n\tNow you have " + getTotalNumTasks() + " tasks in the list.");
     }
 
     public void deleteTask(String[] currLine) {
@@ -79,43 +86,40 @@ public class TaskManager {
         if (index >= getTotalNumTasks() || getTotalNumTasks() == 0) {
             throw new IndexOutOfBoundsException();
         }
-        Weng.print("Noted. I've removed this task:");
-        Weng.print(tasks.get(index).toString());
-        tasks.remove(index);
-        Weng.print("Now you have " + getTotalNumTasks() + " tasks in the list.");
+        Task removedTask = tasks.remove(index);
+        ui.printWithSeparators("Noted. I've removed this task:\n\t" + removedTask.toString() + "\n\tNow you have " + getTotalNumTasks() + " tasks in the list.");
     }
 
     public void unmarkTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (index >= getTotalNumTasks()) {
-            Weng.print("Index out of range");
+            ui.printWithSeparators("Index out of range");
         } else if (!tasks.get(index).isDone()) {
-            Weng.print("Already unmarked");
+            ui.printWithSeparators("Already unmarked");
         } else {
             tasks.get(index).setDone(false);
-            Weng.print("Nice! I've marked this task as not done yet:");
-            Weng.print(tasks.get(index).toString());
+            ui.printWithSeparators("Nice! I've marked this task as not done yet:\n\t" + tasks.get(index).toString());
         }
     }
 
     public void markTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (index >= getTotalNumTasks()) {
-            Weng.print("Index out of range");
+            ui.printWithSeparators("Index out of range");
         } else if (tasks.get(index).isDone()) {
-            Weng.print("Already marked");
+            ui.printWithSeparators("Already marked");
         } else {
             tasks.get(index).setDone(true);
-            Weng.print("Nice! I've marked this task as done:");
-            Weng.print(tasks.get(index).toString());
+            ui.printWithSeparators("Nice! I've marked this task as done:\n\t" + tasks.get(index).toString());
         }
     }
 
     public void listTasks() {
-        Weng.print("Here are the tasks in your list:");
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
         for (int i = 0; i < getTotalNumTasks(); i++) {
-            Weng.print(String.format("%d. %s", i, tasks.get(i)));
+            sb.append(String.format("\n\t%d. %s", i, tasks.get(i)));
         }
+        ui.printWithSeparators(sb.toString());
     }
 
     public int getTotalNumTasks() {
