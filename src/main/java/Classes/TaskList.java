@@ -170,6 +170,22 @@ public class TaskList {
         ui.printWithSeparators(sb.toString());
     }
 
+    public void findTasksByKeyword(String[] currLine) {
+        if (currLine.length < 2) {
+            ui.printWithSeparators("Please provide a keyword to search for.");
+            return;
+        }
+        String keyword = String.join(" ", Arrays.copyOfRange(currLine, 1, currLine.length));
+        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:");
+        for (int i = 0; i < getTotalNumTasks(); i++) {
+            Task task = tasks.get(i);
+            if (task.getDescription().contains(keyword)) {
+                sb.append(String.format("\n\t%d. %s", i + 1, task));
+            }
+        }
+        ui.printWithSeparators(sb.toString());
+    }
+
     public int getTotalNumTasks() {
         return tasks.size();
     }
