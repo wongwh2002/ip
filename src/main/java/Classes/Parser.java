@@ -33,6 +33,9 @@ public class Parser {
                 case LIST:
                     new ListCommand().execute(taskList, ui, storage);
                     break;
+                case ON:
+                    taskList.listTasksOnDate(currLine);
+                    break;
                 default:
                     new AddCommand(currLine).execute(taskList, ui, storage);
                     break;

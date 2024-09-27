@@ -9,6 +9,9 @@ import Tasks.Event;
 import Tasks.Task;
 import Tasks.Todo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,7 +24,6 @@ public class TaskList {
     public TaskList(Ui ui) {
         this.ui = ui;
     }
-
 
     public void handleMultiWordCommands(String[] currLine) throws DescriptionEmptyException, MissingDatesException, IllegalCommandException {
         if (currLine.length < 2) {
@@ -46,6 +48,9 @@ public class TaskList {
         case DELETE:
             deleteTask(currLine);
             break;
+        case ON:
+            listTasksOnDate(currLine);
+            break;
         default:
             throw new IllegalCommandException();
         }
@@ -57,11 +62,27 @@ public class TaskList {
     }
 
     public void addEventFromInput(String[] input) throws MissingDatesException {
-        addAndPrintHandler(new Event(input));
+        int fromIndex = Arrays.asList(input).indexOf("/from");
+        int toIndex = Arrays.asList(input).indexOf("/to");
+        if (fromIndex == -1 || toIndex == -1) {
+            throw new MissingDatesException("/from or /to");
+        }
+        String description = String.join(" ", Arrays.copyOfRange(input, 1, fromIndex));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        LocalDateTime fromDate = LocalDateTime.parse(input[fromIndex + 1] + " " + input[fromIndex + 2], formatter);
+        LocalDateTime toDate = LocalDateTime.parse(input[toIndex + 1] + " " + input[toIndex + 2], formatter);
+        addAndPrintHandler(new Event(description, fromDate, toDate));
     }
 
     public void addDeadlineFromInput(String[] input) throws MissingDatesException {
-        addAndPrintHandler(new Deadline(input));
+        int byIndex = Arrays.asList(input).indexOf("/by");
+        if (byIndex == -1) {
+            throw new MissingDatesException("/by");
+        }
+        String description = String.join(" ", Arrays.copyOfRange(input, 1, byIndex));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        LocalDateTime byDate = LocalDateTime.parse(input[byIndex + 1] + " " + input[byIndex + 2], formatter);
+        addAndPrintHandler(new Deadline(description, byDate));
     }
 
     public void addTodoFromFile(String description, boolean isDone) {
@@ -69,11 +90,16 @@ public class TaskList {
     }
 
     public void addEventFromFile(String desc, String fromDate, String toDate, boolean isDone) {
-        tasks.add(new Event(desc, fromDate, toDate, isDone));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        LocalDateTime from = LocalDateTime.parse(fromDate, formatter);
+        LocalDateTime to = LocalDateTime.parse(toDate, formatter);
+        tasks.add(new Event(desc, from, to, isDone));
     }
 
     public void addDeadlineFromFile(String desc, String byDate, boolean isDone) {
-        tasks.add(new Deadline(desc, byDate, isDone));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        LocalDateTime by = LocalDateTime.parse(byDate, formatter);
+        tasks.add(new Deadline(desc, by, isDone));
     }
 
     private void addAndPrintHandler(Task newTask) {
@@ -118,6 +144,28 @@ public class TaskList {
         StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
         for (int i = 0; i < getTotalNumTasks(); i++) {
             sb.append(String.format("\n\t%d. %s", i, tasks.get(i)));
+        }
+        ui.printWithSeparators(sb.toString());
+    }
+
+    public void listTasksOnDate(String[] currLine) {
+        if (currLine.length < 2) {
+            ui.printWithSeparators("Please provide a date in the format yyyy-MM-dd.");
+            return;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(currLine[1], formatter);
+        StringBuilder sb = new StringBuilder("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+        for (Task task : tasks) {
+            if (task instanceof Deadline deadline) {
+                if (deadline.getByDate().toLocalDate().equals(date)) {
+                    sb.append("\n\t").append(task);
+                }
+            } else if (task instanceof Event event) {
+                if (event.getFromDate().toLocalDate().equals(date) || event.getToDate().toLocalDate().equals(date)) {
+                    sb.append("\n\t").append(task);
+                }
+            }
         }
         ui.printWithSeparators(sb.toString());
     }

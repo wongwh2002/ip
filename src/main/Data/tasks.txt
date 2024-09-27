@@ -1,5 +1,2 @@
-T | 0 |      1
-D | 1 | yes | yes
-E | 0 | something | yes | yes
-T | 1 | 2
-D | 0 | fhegeg | fengseg
+T | 0 |   1
+D | 0 | return book | 2019-12-02 1800

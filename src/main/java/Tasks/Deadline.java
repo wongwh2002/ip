@@ -2,18 +2,20 @@ package Tasks;
 
 import Exceptions.MissingDatesException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class Deadline extends Task {
     public static final String BY = "/by";
-    protected String byDate;
+    protected LocalDateTime byDate;
 
-    public Deadline(String description, String byDate) {
+    public Deadline(String description, LocalDateTime byDate) {
         super(description);
         this.byDate = byDate;
     }
 
-    public Deadline(String description, String byDate, boolean isDone) {
+    public Deadline(String description, LocalDateTime byDate, boolean isDone) {
         super(description, isDone);
         this.byDate = byDate;
     }
@@ -25,16 +27,23 @@ public class Deadline extends Task {
             throw new MissingDatesException(BY);
         }
         setDescription(String.join(" ", Arrays.copyOfRange(input, 1, byIndex)));
-        this.byDate = String.join(" ", Arrays.copyOfRange(input, byIndex + 1, input.length));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        this.byDate = LocalDateTime.parse(String.join(" ", Arrays.copyOfRange(input, byIndex + 1, input.length)), formatter);
+    }
+
+    public LocalDateTime getByDate() {
+        return byDate;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + byDate + ")";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+        return "[D]" + super.toString() + " (by: " + byDate.format(formatter) + ")";
     }
 
     @Override
     public String toFile() {
-        return "D | " + super.toFile() + " | " + byDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+        return "D | " + super.toFile() + " | " + byDate.format(formatter);
     }
 }
