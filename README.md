@@ -34,7 +34,7 @@ deadline <description> /by <date>
 Example:
 
 ```plaintext
-deadline return book /by 2021-09-30 1800
+deadline return book /by 2021/09/30 1800
 ```
 
 This command adds a deadline task with the description `return book` and the deadline `30th September 2021, 6:00 PM`.
@@ -50,7 +50,7 @@ event <description> /from <date> <time> /to <date> <time>
 Example:
 
 ```plaintext
-event project meeting /from 2023-12-01 1400 /to 2023-12-01 1600
+event project meeting /from 2023/12/01 1400 /to 2023/12/01 1600
 ```
 
 This command adds an event task with the description `project meeting` and the event timing
