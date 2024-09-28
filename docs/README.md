@@ -38,6 +38,14 @@ and <time> is
 ```plaintext
 <HHmm>
 ```
+where date is
+```plaintext
+yyyy/MM/dd
+```
+and time is
+```plaintext
+HHmm
+```
 
 Example:
 
@@ -54,13 +62,13 @@ To add an event task, use the following command:
 ```plaintext
 event <description> /from <date> <time> /to <date> <time>
 ```
-where  <date> is
+where date is
 ```plaintext
-<yyyy/MM/dd>
+yyyy/MM/dd
 ```
-and <time> is
+and time is
 ```plaintext
-<HHmm>
+HHmm
 ```
 
 Example:
