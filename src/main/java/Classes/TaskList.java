@@ -70,7 +70,7 @@ public class TaskList {
     }
 
     /**
-     * Adds a Todo task from the input.
+     * Adds a To-do task from the input.
      *
      * @param currLine the input containing the task description
      */
@@ -116,7 +116,7 @@ public class TaskList {
     }
 
     /**
-     * Adds a Todo task from the file.
+     * Adds a To-do task from the file.
      *
      * @param description the task description
      * @param isDone      whether the task is done
