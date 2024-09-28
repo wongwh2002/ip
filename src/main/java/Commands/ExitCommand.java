@@ -5,7 +5,7 @@ import Classes.TaskList;
 import Classes.Ui;
 
 public class ExitCommand extends Command {
-    @Override
+
     /**
      * Executes the ExitCommand by printing a goodbye message.
      *
@@ -13,6 +13,7 @@ public class ExitCommand extends Command {
      * @param ui       the UI to be used for interactions
      * @param storage  the storage to be used for saving and loading tasks
      */
+    @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) {
         ui.printGoodbye();
     }

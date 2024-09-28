@@ -24,22 +24,22 @@ public class Event extends Task {
         this.toDate = toDate;
     }
 
-    public Event(String[] input) throws MissingDatesException {
-        super(input[0]);
-        int fromIndex = Arrays.asList(input).indexOf(FROM);
-        if (fromIndex == -1) {
-            throw new MissingDatesException(FROM);
-        }
-        int toIndex = Arrays.asList(input).indexOf(TO);
-        if (toIndex == -1) {
-            throw new MissingDatesException(TO);
-        }
-
-        setDescription(String.join(" ", Arrays.copyOfRange(input, 1, fromIndex)));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-        this.fromDate = LocalDateTime.parse(String.join(" ", Arrays.copyOfRange(input, fromIndex + 1, toIndex)), formatter);
-        this.toDate = LocalDateTime.parse(String.join(" ", Arrays.copyOfRange(input, toIndex + 1, input.length)), formatter);
-    }
+//    public Event(String[] input) throws MissingDatesException {
+//        super(input[0]);
+//        int fromIndex = Arrays.asList(input).indexOf(FROM);
+//        if (fromIndex == -1) {
+//            throw new MissingDatesException(FROM);
+//        }
+//        int toIndex = Arrays.asList(input).indexOf(TO);
+//        if (toIndex == -1) {
+//            throw new MissingDatesException(TO);
+//        }
+//
+//        setDescription(String.join(" ", Arrays.copyOfRange(input, 1, fromIndex)));
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+//        this.fromDate = LocalDateTime.parse(String.join(" ", Arrays.copyOfRange(input, fromIndex + 1, toIndex)), formatter);
+//        this.toDate = LocalDateTime.parse(String.join(" ", Arrays.copyOfRange(input, toIndex + 1, input.length)), formatter);
+//    }
 
     public LocalDateTime getFromDate() {
         return fromDate;
