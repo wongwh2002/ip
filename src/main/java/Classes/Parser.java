@@ -2,6 +2,8 @@ package Classes;
 
 import Commands.AddCommand;
 import Commands.ListCommand;
+import Commands.DeleteCommand;
+import Commands.ExitCommand;
 import Commands.CommandType;
 
 import java.util.Scanner;
@@ -37,11 +39,14 @@ public class Parser {
             try {
                 switch (CommandType.valueOf(currLine[0].toUpperCase())) {
                 case BYE:
-                    ui.printGoodbye();
+                    new ExitCommand().execute(taskList, ui, storage);
                     isLooping = false;
                     break;
                 case LIST:
                     new ListCommand().execute(taskList, ui, storage);
+                    break;
+                case DELETE:
+                    new DeleteCommand(currLine).execute(taskList, ui, storage);
                     break;
                 case ON:
                     taskList.listTasksOnDate(currLine);
