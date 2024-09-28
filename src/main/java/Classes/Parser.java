@@ -11,12 +11,22 @@ public class Parser {
     private final Ui ui;
     private final Storage storage;
 
+    /**
+     * Constructs a Parser with the specified TaskList, UI, and Storage.
+     *
+     * @param taskList the task list to be managed
+     * @param ui       the UI to be used for interactions
+     * @param storage  the storage to be used for saving and loading tasks
+     */
     public Parser(TaskList taskList, Ui ui, Storage storage) {
         this.taskList = taskList;
         this.ui = ui;
         this.storage = storage;
     }
 
+    /**
+     * Handles user input and delegates to the appropriate command.
+     */
     public void handleUserInput() {
         Scanner scanner = new Scanner(System.in);
         boolean isLooping = true;

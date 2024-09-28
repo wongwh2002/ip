@@ -12,11 +12,20 @@ public class Storage {
     private final TaskList taskList;
     private final Ui ui;
 
+    /**
+     * Constructor for the Storage class.
+     *
+     * @param taskList the task list to be used
+     * @param ui       the user interface to be used
+     */
     public Storage(TaskList taskList, Ui ui) {
         this.taskList = taskList;
         this.ui = ui;
     }
 
+    /**
+     * Loads the tasks from the file in FILEPATH.
+     */
     public void loadTasks() {
         ui.printWithSeparators("Loading tasks from file...");
         try {
@@ -47,6 +56,9 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the tasks to the file in FILEPATH.
+     */
     public void saveTasks() {
         ui.printWithSeparators("Saving tasks to file...");
         try (FileWriter fw = new FileWriter(FILE_PATH)) {

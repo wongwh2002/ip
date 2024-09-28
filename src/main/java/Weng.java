@@ -4,6 +4,11 @@ import Classes.Parser;
 import Classes.TaskList;
 
 public class Weng {
+    /**
+     * The main method to run the application.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         Ui ui = new Ui();
         TaskList taskList = new TaskList(ui);

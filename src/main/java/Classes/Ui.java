@@ -9,6 +9,11 @@ public class Ui {
         print(Constants.SEPARATOR);
     }
 
+    /**
+     * Prints the message with separators above and below.
+     *
+     * @param message the message to be printed
+     */
     public void printWithSeparators(String message) {
         printSeparator();
         print(message);
