@@ -22,7 +22,7 @@ public class Ui {
 
     public void printGreeting() {
         printSeparator();
-        print("Hello! I'm Weng");
+        print("Hello! I'm Zuke");
         print("What can I do for you?");
         printSeparator();
     }
