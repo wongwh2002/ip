@@ -3,7 +3,7 @@ import Classes.Storage;
 import Classes.Parser;
 import Classes.TaskList;
 
-public class Weng {
+public class Zuke {
     /**
      * The main method to run the application.
      *
