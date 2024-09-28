@@ -89,7 +89,7 @@ public class TaskList {
         int fromIndex = Arrays.asList(input).indexOf("/from");
         int toIndex = Arrays.asList(input).indexOf("/to");
         if (fromIndex == -1 || toIndex == -1) {
-            throw new MissingDatesException("/from or /to cannot be empty!!");
+            throw new MissingDatesException("Correct format: event <description> /from <yyyy/MM/dd> <HHmm> /to <yyyy/MM/dd> <HHmm>");
         }
         String description = String.join(" ", Arrays.copyOfRange(input, 1, fromIndex));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HHmm");
@@ -112,7 +112,7 @@ public class TaskList {
     public void addDeadlineFromInput(String[] input) throws MissingDatesException {
         int byIndex = Arrays.asList(input).indexOf("/by");
         if (byIndex == -1) {
-            throw new MissingDatesException("/by cannot be empty!");
+            throw new MissingDatesException("Correct format: deadline <description> /by <yyyy/MM/dd> <HHmm>");
         }
         String description = String.join(" ", Arrays.copyOfRange(input, 1, byIndex));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HHmm");

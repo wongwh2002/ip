@@ -28,15 +28,7 @@ This command adds a todo task with the description `read book`.
 To add a deadline task, use the following command:
 
 ```plaintext
-deadline <description> /by <date> <time>
-```
-where  <date> is
-```plaintext
-<yyyy/MM/dd>
-```
-and <time> is
-```plaintext
-<HHmm>
+deadline <description> /by <yyyy/MM/dd> <HHmm>
 ```
 
 Example:
@@ -52,15 +44,7 @@ This command adds a deadline task with the description `return book` and the dea
 To add an event task, use the following command:
 
 ```plaintext
-event <description> /from <date> <time> /to <date> <time>
-```
-where  <date> is
-```plaintext
-<yyyy/MM/dd>
-```
-and <time> is
-```plaintext
-<HHmm>
+event <description> /from <yyyy/MM/dd> <HHmm> /to <yyyy/MM/dd> <HHmm>
 ```
 
 Example:
