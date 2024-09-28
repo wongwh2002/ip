@@ -7,4 +7,9 @@ public class MissingDatesException extends Exception {
     public MissingDatesException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
+
+    @Override
+    public String getMessage() {
+        return errorMessage;
+    }
 }

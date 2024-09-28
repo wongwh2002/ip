@@ -89,13 +89,18 @@ public class TaskList {
         int fromIndex = Arrays.asList(input).indexOf("/from");
         int toIndex = Arrays.asList(input).indexOf("/to");
         if (fromIndex == -1 || toIndex == -1) {
-            throw new MissingDatesException("/from or /to");
+            throw new MissingDatesException("/from or /to cannot be empty!!");
         }
         String description = String.join(" ", Arrays.copyOfRange(input, 1, fromIndex));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-        LocalDateTime fromDate = LocalDateTime.parse(input[fromIndex + 1] + " " + input[fromIndex + 2], formatter);
-        LocalDateTime toDate = LocalDateTime.parse(input[toIndex + 1] + " " + input[toIndex + 2], formatter);
-        addAndPrintHandler(new Event(description, fromDate, toDate));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HHmm");
+        try {
+            LocalDateTime fromDate = LocalDateTime.parse(input[fromIndex + 1] + " " + input[fromIndex + 2], formatter);
+            LocalDateTime toDate = LocalDateTime.parse(input[toIndex + 1] + " " + input[toIndex + 2], formatter);
+            addAndPrintHandler(new Event(description, fromDate, toDate));
+        }
+        catch (Exception e) {
+            ui.printWithSeparators("Please provide a valid date in the format yyyy/MM/dd HHmm.");
+        }
     }
 
     /**
@@ -107,12 +112,17 @@ public class TaskList {
     public void addDeadlineFromInput(String[] input) throws MissingDatesException {
         int byIndex = Arrays.asList(input).indexOf("/by");
         if (byIndex == -1) {
-            throw new MissingDatesException("/by");
+            throw new MissingDatesException("/by cannot be empty!");
         }
         String description = String.join(" ", Arrays.copyOfRange(input, 1, byIndex));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-        LocalDateTime byDate = LocalDateTime.parse(input[byIndex + 1] + " " + input[byIndex + 2], formatter);
-        addAndPrintHandler(new Deadline(description, byDate));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HHmm");
+        try {
+            LocalDateTime byDate = LocalDateTime.parse(input[byIndex + 1] + " " + input[byIndex + 2], formatter);
+            addAndPrintHandler(new Deadline(description, byDate));
+        }
+        catch (Exception e) {
+            ui.printWithSeparators("Please provide a valid date in the format yyyy/MM/dd HHmm.");
+        }
     }
 
     /**
