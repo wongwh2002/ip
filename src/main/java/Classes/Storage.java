@@ -30,7 +30,12 @@ public class Storage {
         try {
             File file = new File(Constants.FILE_PATH);
             if (!file.exists()) {
-                file.createNewFile();
+                boolean hasCreatedFile = file.createNewFile();
+                if (hasCreatedFile) {
+                    ui.printWithSeparators("File not found, creating new file...");
+                } else {
+                    ui.printWithSeparators("Error creating new file");
+                }
             }
             Scanner scanner = new Scanner(file);
             while (scanner.hasNext()) {
