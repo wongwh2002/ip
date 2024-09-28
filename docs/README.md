@@ -30,14 +30,7 @@ To add a deadline task, use the following command:
 ```plaintext
 deadline <description> /by <date> <time>
 ```
-where  <date> is
-```plaintext
-<yyyy/MM/dd>
-```
-and <time> is
-```plaintext
-<HHmm>
-```
+
 where date is
 ```plaintext
 yyyy/MM/dd
