@@ -135,13 +135,13 @@ This command finds tasks with the keyword `book`.
 To list tasks for a specific date, use the following command:
 
 ```plaintext
-list <date>
+on <yyyy/MM/dd>
 ```
 
 Example:
 
 ```plaintext
-list 2021-09-30
+on 2021/09/30
 ```
 
 This command lists tasks for the date `30th September 2021`.
@@ -175,6 +175,12 @@ cd ip
 
 ```plaintext
 java -jar ip.jar
+```
+
+5. Start managing your tasks with Zuke!
+sample test data
+```bash
+java -jar build/libs/ip-1.0-SNAPSHOT-all.jar < text-ui-test/input.txt
 ```
 
 

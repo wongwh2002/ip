@@ -59,7 +59,9 @@ public class Parser {
                     break;
                 }
             } catch (IllegalArgumentException e) {
-                ui.printWithSeparators("Error: No enum constant Commands.CommandType." + currLine[0].toUpperCase());
+                ui.printWithSeparators("Error: no such Commands " + currLine[0].toUpperCase());
+            } catch (ArrayIndexOutOfBoundsException e) {
+                ui.printWithSeparators("Error: missing arguments for " + currLine[0].toUpperCase());
             } catch (Exception e) {
                 ui.printWithSeparators("Error: " + e.getMessage());
             }

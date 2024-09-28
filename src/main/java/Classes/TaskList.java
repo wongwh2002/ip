@@ -40,7 +40,7 @@ public class TaskList {
      */
     public void handleMultiWordCommands(String[] currLine) throws DescriptionEmptyException, MissingDatesException, IllegalCommandException {
         if (currLine.length < 2) {
-            throw new DescriptionEmptyException(currLine[0]);
+            throw new DescriptionEmptyException("Please give correct input! " + currLine[0] + " is not enough!!");
         }
         switch (CommandType.valueOf(currLine[0].toUpperCase())) {
         case TODO:
@@ -239,10 +239,10 @@ public class TaskList {
      */
     public void listTasksOnDate(String[] currLine) {
         if (currLine.length < 2) {
-            ui.printWithSeparators("Please provide a date in the format yyyy-MM-dd.");
+            ui.printWithSeparators("Please provide a date in the format yyyy/MM/dd.");
             return;
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate date = LocalDate.parse(currLine[1], formatter);
         StringBuilder sb = new StringBuilder("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
         for (Task task : tasks) {
