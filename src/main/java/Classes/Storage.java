@@ -8,7 +8,6 @@ import java.util.Scanner;
 import Tasks.Task;
 
 public class Storage {
-    private static final String FILE_PATH = "src/main/Data/tasks.txt";
     private final TaskList taskList;
     private final Ui ui;
 
@@ -29,7 +28,7 @@ public class Storage {
     public void loadTasks() {
         ui.printWithSeparators("Loading tasks from file...");
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(Constants.FILE_PATH);
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -61,7 +60,7 @@ public class Storage {
      */
     public void saveTasks() {
         ui.printWithSeparators("Saving tasks to file...");
-        try (FileWriter fw = new FileWriter(FILE_PATH)) {
+        try (FileWriter fw = new FileWriter(Constants.FILE_PATH)) {
             for (Task task : taskList.getTasks()) {
                 fw.write(task.toFile() + System.lineSeparator());
             }

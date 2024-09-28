@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
-    public static final String BY = "/by";
     protected LocalDateTime byDate;
 
     public Deadline(String description, LocalDateTime byDate) {

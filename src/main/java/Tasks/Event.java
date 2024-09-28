@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Event extends Task {
-    public static final String FROM = "/from";
-    public static final String TO = "/to";
     protected LocalDateTime fromDate;
     protected LocalDateTime toDate;
 
