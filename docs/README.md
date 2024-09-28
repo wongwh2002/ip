@@ -1,6 +1,6 @@
 # Zuke User Guide
 
-![Product Screenshot](ProductScreenshot.png)
+![Product Screenshot](ProductScreenshot.jpg)
 
 Zuke is a task management application designed to help you keep track of your todos, deadlines, and events. With Zuke,
 you can easily add, delete, and manage tasks, ensuring you stay organized and on top of your schedule.
