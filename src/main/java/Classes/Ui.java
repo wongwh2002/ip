@@ -31,5 +31,6 @@ public class Ui {
         printSeparator();
         print("Bye. Hope to see you again soon!");
         printSeparator();
+
     }
 }
