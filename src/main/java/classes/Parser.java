@@ -1,10 +1,10 @@
-package Classes;
+package classes;
 
-import Commands.AddCommand;
-import Commands.ListCommand;
-import Commands.DeleteCommand;
-import Commands.ExitCommand;
-import Commands.CommandType;
+import commands.AddCommand;
+import commands.ListCommand;
+import commands.DeleteCommand;
+import commands.ExitCommand;
+import commands.CommandType;
 
 import java.util.Scanner;
 

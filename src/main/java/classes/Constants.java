@@ -1,4 +1,4 @@
-package Classes;
+package classes;
 
 public class Constants {
     public static final String SEPARATOR = "____________________________________________________________";

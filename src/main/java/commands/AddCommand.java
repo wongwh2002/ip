@@ -1,11 +1,11 @@
-package Commands;
+package commands;
 
-import Classes.Storage;
-import Classes.TaskList;
-import Classes.Ui;
-import Exceptions.DescriptionEmptyException;
-import Exceptions.IllegalCommandException;
-import Exceptions.MissingDatesException;
+import classes.Storage;
+import classes.TaskList;
+import classes.Ui;
+import exceptions.DescriptionEmptyException;
+import exceptions.IllegalCommandException;
+import exceptions.MissingDatesException;
 
 public class AddCommand extends Command {
     private final String[] input;

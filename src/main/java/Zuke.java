@@ -1,7 +1,7 @@
-import Classes.Ui;
-import Classes.Storage;
-import Classes.Parser;
-import Classes.TaskList;
+import classes.Ui;
+import classes.Storage;
+import classes.Parser;
+import classes.TaskList;
 
 public class Zuke {
     /**

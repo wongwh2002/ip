@@ -1,8 +1,8 @@
-package Commands;
+package commands;
 
-import Classes.Storage;
-import Classes.TaskList;
-import Classes.Ui;
+import classes.Storage;
+import classes.TaskList;
+import classes.Ui;
 
 public abstract class Command {
     /**

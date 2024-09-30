@@ -1,8 +1,8 @@
-package Commands;
+package commands;
 
-import Classes.Ui;
-import Classes.TaskList;
-import Classes.Storage;
+import classes.Ui;
+import classes.TaskList;
+import classes.Storage;
 
 public class ListCommand extends Command {
     /**

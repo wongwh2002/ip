@@ -1,4 +1,4 @@
-package Classes;
+package classes;
 
 public class Ui {
     public void print(String message) {

@@ -1,9 +1,10 @@
-package Exceptions;
+package exceptions;
 
-public class DescriptionEmptyException extends Exception {
+public class MissingDatesException extends Exception {
+    //nothing
     public String errorMessage;
 
-    public DescriptionEmptyException(String errorMessage) {
+    public MissingDatesException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 

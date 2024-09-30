@@ -1,9 +1,9 @@
-package Classes;
+package classes;
 
-import Commands.CommandType;
-import Exceptions.DescriptionEmptyException;
-import Exceptions.IllegalCommandException;
-import Exceptions.MissingDatesException;
+import commands.CommandType;
+import exceptions.DescriptionEmptyException;
+import exceptions.IllegalCommandException;
+import exceptions.MissingDatesException;
 import Tasks.Deadline;
 import Tasks.Event;
 import Tasks.Task;
