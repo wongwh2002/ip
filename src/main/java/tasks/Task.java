@@ -1,4 +1,4 @@
-package Tasks;
+package tasks;
 
 public class Task {
     private String description;
@@ -16,10 +16,6 @@ public class Task {
 
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getStatusIcon() {

@@ -56,7 +56,7 @@ event project meeting /from 2023/12/01 1400 /to 2023/12/01 1600
 This command adds an event task with the description `project meeting` and the event timing
 `1st December 2023, 2:00 PM to 4:00 PM`.
 
-### 4. List all Tasks
+### 4. List all tasks
 
 To list all tasks, use the following command:
 
@@ -114,7 +114,7 @@ delete 1
 
 This command deletes the task with task number `1`.
 
-### 8. Find Tasks
+### 8. Find tasks
 
 To find tasks by keyword, use the following command:
 
@@ -130,7 +130,7 @@ find book
 
 This command finds tasks with the keyword `book`.
 
-### 9. List Tasks for a Specific Date
+### 9. List tasks for a Specific Date
 
 To list tasks for a specific date, use the following command:
 
