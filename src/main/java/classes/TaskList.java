@@ -12,6 +12,7 @@ import tasks.Todo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -73,7 +74,7 @@ public class TaskList {
             LocalDateTime fromDate = LocalDateTime.parse(input[fromIndex + 1] + " " + input[fromIndex + 2], formatter);
             LocalDateTime toDate = LocalDateTime.parse(input[toIndex + 1] + " " + input[toIndex + 2], formatter);
             addAndPrintHandler(new Event(description, fromDate, toDate));
-        } catch (Exception e) {
+        } catch (DateTimeParseException e) {
             ui.printWithSeparators("Please provide a valid date in the format " + Constants.INPUT_DATETIME_FORMAT + ".");
         }
     }
@@ -88,11 +89,10 @@ public class TaskList {
         try {
             LocalDateTime byDate = LocalDateTime.parse(input[byIndex + 1] + " " + input[byIndex + 2], formatter);
             addAndPrintHandler(new Deadline(description, byDate));
-        } catch (Exception e) {
+        } catch (DateTimeParseException e) {
             ui.printWithSeparators("Please provide a valid date in the format " + Constants.INPUT_DATETIME_FORMAT + ".");
         }
     }
-
 
     public void addTodoFromFile(String description, boolean isDone) {
         tasks.add(new Todo(description, isDone));
