@@ -145,6 +145,7 @@ on 2021/09/30
 ```
 
 This command lists tasks for the date `30th September 2021`.
+For Event Tasks, it will list tasks on the fromDate and toDate.
 
 ### 10. Exit the Application
 

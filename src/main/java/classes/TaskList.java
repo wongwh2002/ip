@@ -30,7 +30,8 @@ public class TaskList {
         if (currLine.length < 2) {
             throw new DescriptionEmptyException("Please give correct input! " + currLine[0] + " is not enough!!");
         }
-        switch (CommandType.valueOf(currLine[0].toUpperCase())) {
+        CommandType commandType = CommandType.valueOf(currLine[0].toUpperCase());
+        switch (commandType) {
         case TODO:
             addTodoFromInput(currLine);
             break;
@@ -129,24 +130,28 @@ public class TaskList {
         int index = parseInt(currLine[1]);
         if (index >= getTotalNumTasks()) {
             ui.printWithSeparators(Constants.ERROR_INDEX_OUT_OF_RANGE);
-        } else if (!tasks.get(index).isDone()) {
-            ui.printWithSeparators("Already unmarked");
-        } else {
-            tasks.get(index).setDone(false);
-            ui.printWithSeparators("Nice! I've marked this task as not done yet:\n\t" + tasks.get(index).toString());
+            return;
         }
+        if (!tasks.get(index).isDone()) {
+            ui.printWithSeparators("Already unmarked");
+            return;
+        }
+        tasks.get(index).setDone(false);
+        ui.printWithSeparators("Nice! I've marked this task as not done yet:\n\t" + tasks.get(index).toString());
     }
 
     public void markTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (index >= getTotalNumTasks()) {
             ui.printWithSeparators(Constants.ERROR_INDEX_OUT_OF_RANGE);
-        } else if (tasks.get(index).isDone()) {
-            ui.printWithSeparators("Already marked");
-        } else {
-            tasks.get(index).setDone(true);
-            ui.printWithSeparators("Nice! I've marked this task as done:\n\t" + tasks.get(index).toString());
+            return;
         }
+        if (tasks.get(index).isDone()) {
+            ui.printWithSeparators("Already marked");
+            return;
+        }
+        tasks.get(index).setDone(true);
+        ui.printWithSeparators("Nice! I've marked this task as done:\n\t" + tasks.get(index).toString());
     }
 
     public void listTasks() {
@@ -165,6 +170,11 @@ public class TaskList {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate date = LocalDate.parse(currLine[1], formatter);
         StringBuilder sb = new StringBuilder("Tasks on " + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+        listTasksOnDateHelper(sb, date);
+        ui.printWithSeparators(sb.toString());
+    }
+
+    private void listTasksOnDateHelper(StringBuilder sb, LocalDate date) {
         for (Task task : tasks) {
             if (task instanceof Deadline deadline) {
                 if (deadline.getByDate().toLocalDate().equals(date)) {
@@ -176,9 +186,7 @@ public class TaskList {
                 }
             }
         }
-        ui.printWithSeparators(sb.toString());
     }
-
     public void findTasksByKeyword(String[] currLine) {
         if (currLine.length < 2) {
             ui.printWithSeparators("Please provide a keyword to search for.");

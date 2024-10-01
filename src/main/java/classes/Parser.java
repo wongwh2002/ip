@@ -1,10 +1,9 @@
 package classes;
 
-import commands.AddCommand;
-import commands.ListCommand;
-import commands.DeleteCommand;
-import commands.ExitCommand;
-import commands.CommandType;
+import commands.*;
+import exceptions.DescriptionEmptyException;
+import exceptions.IllegalCommandException;
+import exceptions.MissingDatesException;
 
 import java.util.Scanner;
 
@@ -27,27 +26,7 @@ public class Parser {
             String line = scanner.nextLine();
             String[] currLine = line.split(" ");
             try {
-                switch (CommandType.valueOf(currLine[0].toUpperCase())) {
-                case BYE:
-                    new ExitCommand().execute(taskList, ui, storage);
-                    isLooping = false;
-                    break;
-                case LIST:
-                    new ListCommand().execute(taskList, ui, storage);
-                    break;
-                case DELETE:
-                    new DeleteCommand(currLine).execute(taskList, ui, storage);
-                    break;
-                case ON:
-                    taskList.listTasksOnDate(currLine);
-                    break;
-                case FIND:
-                    taskList.findTasksByKeyword(currLine);
-                    break;
-                default:
-                    new AddCommand(currLine).execute(taskList, ui, storage);
-                    break;
-                }
+                isLooping = processCommand(currLine);
             } catch (IllegalArgumentException e) {
                 ui.printWithSeparators(Constants.ERROR_NO_SUCH_COMMAND + currLine[0].toUpperCase());
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -56,5 +35,29 @@ public class Parser {
                 ui.printWithSeparators("Error: " + e.getMessage());
             }
         }
+    }
+
+    private boolean processCommand(String[] currLine) throws DescriptionEmptyException, IllegalCommandException, MissingDatesException {
+        switch (CommandType.valueOf(currLine[0].toUpperCase())) {
+            case BYE:
+                new ExitCommand().execute(taskList, ui, storage);
+                return false;
+            case LIST:
+                new ListCommand().execute(taskList, ui, storage);
+                break;
+            case DELETE:
+                new DeleteCommand(currLine).execute(taskList, ui, storage);
+                break;
+            case ON:
+                taskList.listTasksOnDate(currLine);
+                break;
+            case FIND:
+                taskList.findTasksByKeyword(currLine);
+                break;
+            default:
+                new AddCommand(currLine).execute(taskList, ui, storage);
+                break;
+        }
+        return true;
     }
 }
