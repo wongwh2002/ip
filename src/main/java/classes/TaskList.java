@@ -52,7 +52,7 @@ public class TaskList {
             listTasksOnDate(currLine);
             break;
         default:
-            throw new IllegalCommandException();
+            throw new IllegalCommandException("I'm sorry, but I don't know what that means :-(");
         }
     }
 
