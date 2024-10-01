@@ -13,22 +13,12 @@ public class Parser {
     private final Ui ui;
     private final Storage storage;
 
-    /**
-     * Constructs a Parser with the specified TaskList, UI, and Storage.
-     *
-     * @param taskList the task list to be managed
-     * @param ui       the UI to be used for interactions
-     * @param storage  the storage to be used for saving and loading tasks
-     */
     public Parser(TaskList taskList, Ui ui, Storage storage) {
         this.taskList = taskList;
         this.ui = ui;
         this.storage = storage;
     }
 
-    /**
-     * Handles user input and delegates to the appropriate command.
-     */
     public void handleUserInput() {
         Scanner scanner = new Scanner(System.in);
         boolean isLooping = true;
@@ -59,9 +49,9 @@ public class Parser {
                     break;
                 }
             } catch (IllegalArgumentException e) {
-                ui.printWithSeparators("Error: no such Commands " + currLine[0].toUpperCase());
+                ui.printWithSeparators(Constants.ERROR_NO_SUCH_COMMAND + currLine[0].toUpperCase());
             } catch (ArrayIndexOutOfBoundsException e) {
-                ui.printWithSeparators("Error: missing arguments for " + currLine[0].toUpperCase());
+                ui.printWithSeparators(Constants.ERROR_MISSING_ARGUMENTS + currLine[0].toUpperCase());
             } catch (Exception e) {
                 ui.printWithSeparators("Error: " + e.getMessage());
             }
