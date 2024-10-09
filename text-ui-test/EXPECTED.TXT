@@ -45,13 +45,17 @@
 	Error: no such Commands DE
 	____________________________________________________________
 	____________________________________________________________
+	Noted. I've removed this task:
+	[D][ ] return book (by: Dec 01 2019, 11:59 pm)
+	Now you have 2 tasks in the list.
+	____________________________________________________________
+	____________________________________________________________
 	Error: Please give correct input! deadline is not enough!!
 	____________________________________________________________
 	____________________________________________________________
 	Here are the tasks in your list:
 	0. [T][ ] borrow book
-	1. [D][ ] return book (by: Dec 01 2019, 11:59 pm)
-	2. [E][X] project meeting (from: Dec 01 2019, 11:59 pm to: Dec 01 2020, 11:59 pm)
+	1. [E][X] project meeting (from: Dec 01 2019, 11:59 pm to: Dec 01 2020, 11:59 pm)
 	____________________________________________________________
 	____________________________________________________________
 	Error: no such Commands TASK

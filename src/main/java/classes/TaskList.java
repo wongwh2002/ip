@@ -111,15 +111,6 @@ public class TaskList {
         ui.printWithSeparators("Got it. I've added this task:\n\t" + newTask.toString() + "\n\tNow you have " + getTotalNumTasks() + " tasks in the list.");
     }
 
-    public void deleteTask(String[] currLine) {
-        int index = parseInt(currLine[1]);
-        if (index >= getTotalNumTasks() || getTotalNumTasks() == 0) {
-            throw new IndexOutOfBoundsException();
-        }
-        Task removedTask = tasks.remove(index);
-        ui.printWithSeparators("Noted. I've removed this task:\n\t" + removedTask.toString() + "\n\tNow you have " + getTotalNumTasks() + " tasks in the list.");
-    }
-
     public void unmarkTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (index >= getTotalNumTasks()) {
@@ -146,14 +137,6 @@ public class TaskList {
         }
         tasks.get(index).setDone(true);
         ui.printWithSeparators("Nice! I've marked this task as done:\n\t" + tasks.get(index).toString());
-    }
-
-    public void listTasks() {
-        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < getTotalNumTasks(); i++) {
-            sb.append(String.format("\n\t%d. %s", i, tasks.get(i)));
-        }
-        ui.printWithSeparators(sb.toString());
     }
 
     public void listTasksOnDate(String[] currLine) {

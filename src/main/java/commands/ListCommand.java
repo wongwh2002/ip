@@ -14,6 +14,10 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) {
-        taskList.listTasks();
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
+        for (int i = 0; i < taskList.getTotalNumTasks(); i++) {
+            sb.append(String.format("\n\t%d. %s", i, taskList.getTasks().get(i)));
+        }
+        ui.printWithSeparators(sb.toString());
     }
 }
