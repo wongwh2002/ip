@@ -39,24 +39,24 @@ public class Parser {
 
     private boolean processCommand(String[] currLine) throws DescriptionEmptyException, IllegalCommandException, MissingDatesException {
         switch (CommandType.valueOf(currLine[0].toUpperCase())) {
-            case BYE:
-                new ExitCommand().execute(taskList, ui, storage);
-                return false;
-            case LIST:
-                new ListCommand().execute(taskList, ui, storage);
-                break;
-            case DELETE:
-                new DeleteCommand(currLine).execute(taskList, ui, storage);
-                break;
-            case ON:
-                taskList.listTasksOnDate(currLine);
-                break;
-            case FIND:
-                taskList.findTasksByKeyword(currLine);
-                break;
-            default:
-                new AddCommand(currLine).execute(taskList, ui, storage);
-                break;
+        case BYE:
+            new ExitCommand().execute(taskList, ui, storage);
+            return false;
+        case LIST:
+            new ListCommand().execute(taskList, ui, storage);
+            break;
+        case DELETE:
+            new DeleteCommand(currLine).execute(taskList, ui, storage);
+            break;
+        case ON:
+            taskList.listTasksOnDate(currLine);
+            break;
+        case FIND:
+            taskList.findTasksByKeyword(currLine);
+            break;
+        default:
+            new AddCommand(currLine).execute(taskList, ui, storage);
+            break;
         }
         return true;
     }

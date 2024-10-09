@@ -47,12 +47,6 @@ public class TaskList {
         case MARK:
             markTask(currLine);
             break;
-        case DELETE:
-            deleteTask(currLine);
-            break;
-        case ON:
-            listTasksOnDate(currLine);
-            break;
         default:
             throw new IllegalCommandException("I'm sorry, but I don't know what that means :-(");
         }

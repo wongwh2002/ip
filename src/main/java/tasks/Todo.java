@@ -9,11 +9,17 @@ public class Todo extends Task {
         super(description, isDone);
     }
 
+    /*
+        * Returns the string representation of the task in the format to be displayed to the user.
+     */
     @Override
     public String toString() {
         return "[T]" + super.toString();
     }
 
+    /*
+        * Returns the string representation of the task in the format to be saved in the file.
+     */
     @Override
     public String toFile() {
         return "T | " + super.toFile();
