@@ -181,7 +181,7 @@ java -jar ip.jar
 5. Start managing your tasks with Zuke!
 sample test data
 ```bash
-java -jar build/libs/ip-1.0-SNAPSHOT-all.jar < text-ui-test/input.txt
+java -jar ip.jar < text-ui-test/input.txt
 ```
 
 
