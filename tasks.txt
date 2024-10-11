@@ -1,9 +1,0 @@
-D | 0 | return book | 2019-12-02 1800
-E | 0 | 2025 midterms | 2019-12-02 1900 | 2024-12-02 1800
-T | 1 |    borrow book
-T | 0 |  borrow book
-D | 0 | return book | 2019-12-01 2359
-E | 0 | project meeting | 2019-12-01 2359 | 2020-12-01 2359
-T | 0 | borrow book
-D | 0 | return book | 2019-12-01 2359
-E | 0 | project meeting | 2019-12-01 2359 | 2020-12-01 2359
