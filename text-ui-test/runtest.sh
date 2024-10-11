@@ -18,7 +18,8 @@ then
     echo "********** BUILD FAILURE **********"
     exit 1
 fi
-
+rm tasks.txt
+touch tasks.txt
 # run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
 java -classpath ../bin Zuke < input.txt > ACTUAL.TXT
 
