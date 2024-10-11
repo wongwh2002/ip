@@ -18,37 +18,59 @@ import java.util.Arrays;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * Manages the list of tasks and provides methods to manipulate them.
+ */
 public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
     private final Ui ui;
 
+    /**
+     * Constructs a TaskList object.
+     *
+     * @param ui the user interface for displaying messages
+     */
     public TaskList(Ui ui) {
         this.ui = ui;
     }
 
+    /**
+     * Handles multi-word commands and delegates to the appropriate methods.
+     *
+     * @param currLine the command and its arguments
+     * @throws DescriptionEmptyException if the description is empty
+     * @throws MissingDatesException if the dates are missing
+     * @throws IllegalCommandException if the command is illegal
+     */
     public void handleMultiWordCommands(String[] currLine) throws DescriptionEmptyException, MissingDatesException, IllegalCommandException {
         if (currLine.length < 2) {
             throw new DescriptionEmptyException("Please give correct input! " + currLine[0] + " is not enough!!");
         }
         CommandType commandType = CommandType.valueOf(currLine[0].toUpperCase());
         switch (commandType) {
-        case TODO:
-            addTodoFromInput(currLine);
-            break;
-        case DEADLINE:
-            addDeadlineFromInput(currLine);
-            break;
-        case EVENT:
-            addEventFromInput(currLine);
-            break;
-        case UNMARK:
-            unmarkTask(currLine);
-            break;
-        case MARK:
-            markTask(currLine);
-            break;
-        default:
-            throw new IllegalCommandException("I'm sorry, but I don't know what that means :-(");
+            case TODO:
+                addTodoFromInput(currLine);
+                break;
+            case DEADLINE:
+                addDeadlineFromInput(currLine);
+                break;
+            case EVENT:
+                addEventFromInput(currLine);
+                break;
+            case UNMARK:
+                unmarkTask(currLine);
+                break;
+            case MARK:
+                markTask(currLine);
+                break;
+            case DELETE:
+                deleteTask(currLine);
+                break;
+            case ON:
+                listTasksOnDate(currLine);
+                break;
+            default:
+                throw new IllegalCommandException("I'm sorry, but I don't know what that means :-(");
         }
     }
 
@@ -111,6 +133,15 @@ public class TaskList {
         ui.printWithSeparators("Got it. I've added this task:\n\t" + newTask.toString() + "\n\tNow you have " + getTotalNumTasks() + " tasks in the list.");
     }
 
+    public void deleteTask(String[] currLine) {
+        int index = parseInt(currLine[1]);
+        if (index >= getTotalNumTasks() || getTotalNumTasks() == 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        Task removedTask = tasks.remove(index);
+        ui.printWithSeparators("Noted. I've removed this task:\n\t" + removedTask.toString() + "\n\tNow you have " + getTotalNumTasks() + " tasks in the list.");
+    }
+
     public void unmarkTask(String[] currLine) {
         int index = parseInt(currLine[1]);
         if (index >= getTotalNumTasks()) {
@@ -139,6 +170,22 @@ public class TaskList {
         ui.printWithSeparators("Nice! I've marked this task as done:\n\t" + tasks.get(index).toString());
     }
 
+    /**
+     * Lists all tasks.
+     */
+    public void listTasks() {
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
+        for (int i = 0; i < getTotalNumTasks(); i++) {
+            sb.append(String.format("\n\t%d. %s", i, tasks.get(i)));
+        }
+        ui.printWithSeparators(sb.toString());
+    }
+
+    /**
+     * Lists tasks on a specific date.
+     *
+     * @param currLine the command and its arguments
+     */
     public void listTasksOnDate(String[] currLine) {
         if (currLine.length < 2) {
             ui.printWithSeparators("Please provide a date in the format yyyy/MM/dd.");
@@ -164,6 +211,12 @@ public class TaskList {
             }
         }
     }
+
+    /**
+     * Finds tasks by a keyword.
+     *
+     * @param currLine the command and its arguments
+     */
     public void findTasksByKeyword(String[] currLine) {
         if (currLine.length < 2) {
             ui.printWithSeparators("Please provide a keyword to search for.");
